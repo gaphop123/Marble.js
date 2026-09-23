@@ -1,0 +1,29 @@
+{
+  "name": "marble.js",
+  "version": "1.0.0",
+  "description": "A 2D physics library specialized for marble race, marble kingdom, and marble run style games and simulations.",
+  "main": "dist/marble.js",
+  "module": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "dev": "npx serve ."
+  },
+  "keywords": [
+    "marble",
+    "physics",
+    "2d",
+    "game",
+    "canvas",
+    "marble-race",
+    "simulation"
+  ],
+  "author": "Marble.js",
+  "license": "MIT",
+  "files": [
+    "src",
+    "dist",
+    "README.md"
+  ]
+}

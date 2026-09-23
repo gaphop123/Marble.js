@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marble Kingdom – Marble.js</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #12121f; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: system-ui, sans-serif; color: #eee; }
+    h1 { margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <h1>MARBLE KINGDOM</h1>
+  <script src="../../dist/marble.js"></script>
+  <script>
+    const game = new Marble.Game({
+      width: 1280,
+      height: 720,
+      gravity: 980,
+      background: '#12121f',
+      debug: true
+    });
+
+    // Walls
+    game.add(new Marble.Rectangle({ x: 0, y: 0, width: 20, height: 720, color: '#2c3e50' }));
+    game.add(new Marble.Rectangle({ x: 1260, y: 0, width: 20, height: 720, color: '#2c3e50' }));
+    game.add(new Marble.Rectangle({ x: 0, y: 700, width: 1280, height: 20, color: '#2c3e50' }));
+
+    // Kingdom structures
+    game.add(new Marble.Square({ x: 100, y: 500, size: 80, color: '#8e44ad' }));
+    game.add(new Marble.Square({ x: 200, y: 450, size: 60, color: '#9b59b6' }));
+    game.add(new Marble.Rectangle({ x: 400, y: 550, width: 200, height: 30, color: '#27ae60' }));
+    game.add(new Marble.Polygon({
+      x: 700, y: 600,
+      points: [[0, -60], [40, 40], [-40, 40]],
+      color: '#e67e22'
+    }));
+    game.add(new Marble.Circle({ x: 900, y: 550, radius: 40, color: '#3498db', collision: true }));
+
+    // Invisible wall
+    game.add(new Marble.Rectangle({
+      x: 1100, y: 300, width: 20, height: 400,
+      visible: false, collision: true, color: '#fff'
+    }));
+
+    // Decoration (no collision)
+    game.add(new Marble.Circle({
+      x: 300, y: 200, radius: 30,
+      color: '#f1c40f', visible: true, collision: false, opacity: 0.5
+    }));
+
+    // Lava + Goal + Teleport
+    game.add(new Marble.Lava({ x: 500, y: 680, width: 150, height: 20 }));
+    game.add(new Marble.BallTeleport({ x: 250, y: 480, targetX: 1000, targetY: 400 }));
+    game.add(new Marble.Goal({ x: 1180, y: 650, radius: 35 }));
+
+    // Many marbles
+    for (let i = 0; i < 25; i++) {
+      game.add(Marble.randomBall({
+        x: 50 + Math.random() * 200,
+        y: 50 + Math.random() * 100,
+        minRadius: 10,
+        maxRadius: 22,
+        showName: i < 8,
+        bounce: 0.5 + Math.random() * 0.3
+      }));
+    }
+
+    game.add(new Marble.Text({
+      x: 30, y: 30, text: 'Marble Kingdom', color: '#fff', size: 26, bold: true, stroke: true
+    }));
+
+    game.start();
+  </script>
+</body>
+</html>

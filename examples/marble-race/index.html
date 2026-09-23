@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marble Race – Marble.js</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0f0f1a; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: system-ui, sans-serif; color: #eee; }
+    h1 { margin-bottom: 12px; font-size: 1.5rem; letter-spacing: 2px; }
+    canvas { border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+    .info { margin-top: 12px; font-size: 0.9rem; opacity: 0.7; }
+    #winner { margin-top: 8px; font-size: 1.2rem; font-weight: bold; color: #2ecc71; min-height: 1.5em; }
+  </style>
+</head>
+<body>
+  <h1>MARBLE RACE</h1>
+  <div id="winner"></div>
+  <script src="../../dist/marble.js"></script>
+  <script>
+    const game = new Marble.Game({
+      width: 1280,
+      height: 720,
+      gravity: 980,
+      background: '#1a1a2e',
+      debug: false
+    });
+
+    // Platforms
+    game.add(new Marble.Rectangle({ x: 0, y: 680, width: 1280, height: 40, color: '#34495e' }));
+    game.add(new Marble.Rectangle({ x: 200, y: 500, width: 300, height: 20, color: '#7f8c8d', surface: { friction: 0.1, bounce: 0.6 } }));
+    game.add(new Marble.Rectangle({ x: 600, y: 400, width: 250, height: 20, color: '#7f8c8d' }));
+    game.add(new Marble.Rectangle({ x: 900, y: 550, width: 200, height: 20, color: '#7f8c8d' }));
+    game.add(new Marble.Rectangle({ x: 400, y: 300, width: 180, height: 18, color: '#95a5a6' }));
+
+    // Triangle obstacle
+    game.add(new Marble.Polygon({
+      x: 550, y: 620,
+      points: [[0, -40], [50, 30], [-50, 30]],
+      color: '#e67e22'
+    }));
+
+    // Lava pit
+    game.add(new Marble.Lava({ x: 750, y: 660, width: 120, height: 20 }));
+
+    // Race
+    const race = new Marble.Race({
+      game,
+      balls: 16,
+      startX: 80,
+      startY: 80,
+      spreadX: 45,
+      goalX: 1150,
+      goalY: 620,
+      goalRadius: 45
+    });
+
+    race.on('winner', (ball) => {
+      document.getElementById('winner').textContent = 'Winner: ' + ball.name + '!';
+    });
+
+    // UI
+    game.add(new Marble.Text({
+      x: 20, y: 20, text: 'MARBLE RACE', color: '#fff', size: 28, bold: true, stroke: true
+    }));
+
+    const timer = new Marble.Timer({ x: 20, y: 55, color: '#aaa', size: 18 });
+    game.add(timer);
+
+    race.spawn();
+    race.start();
+    timer.start();
+    game.start();
+  </script>
+  <p class="info">Marble.js – 16 marbles racing to the goal</p>
+</body>
+</html>

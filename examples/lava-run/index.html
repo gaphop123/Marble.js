@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lava Run – Marble.js</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #1a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: system-ui, sans-serif; color: #eee; }
+    h1 { margin-bottom: 12px; color: #ff6600; }
+  </style>
+</head>
+<body>
+  <h1>LAVA RUN</h1>
+  <script src="../../dist/marble.js"></script>
+  <script>
+    const game = new Marble.Game({
+      width: 1280,
+      height: 720,
+      gravity: 900,
+      background: '#1a0a0a'
+    });
+
+    // Floor platforms with gaps
+    game.add(new Marble.Rectangle({ x: 0, y: 650, width: 280, height: 30, color: '#555' }));
+    game.add(new Marble.Rectangle({ x: 400, y: 600, width: 200, height: 25, color: '#555' }));
+    game.add(new Marble.Rectangle({ x: 700, y: 550, width: 180, height: 25, color: '#555' }));
+    game.add(new Marble.Rectangle({ x: 980, y: 500, width: 300, height: 30, color: '#555' }));
+
+    // Lava everywhere else at bottom
+    game.add(new Marble.Lava({ x: 0, y: 680, width: 1280, height: 40 }));
+
+    // Teleport
+    game.add(new Marble.BallTeleport({
+      x: 500, y: 560,
+      targetX: 1050, targetY: 450,
+      radius: 22
+    }));
+
+    // Goal
+    const goal = new Marble.Goal({ x: 1150, y: 460, radius: 40 });
+    goal.onEnter(ball => {
+      title.setText('SURVIVED! ' + ball.name);
+      title.setColor('#2ecc71');
+    });
+    game.add(goal);
+
+    // Checkpoint
+    game.add(new Marble.Checkpoint({ x: 750, y: 520, radius: 25 }));
+
+    // Balls
+    for (let i = 0; i < 8; i++) {
+      game.add(Marble.randomBall({
+        x: 50 + i * 30,
+        y: 100 + Math.random() * 50,
+        minRadius: 14,
+        maxRadius: 22,
+        showName: true,
+        bounce: 0.55
+      }));
+    }
+
+    const title = new Marble.Text({
+      x: 20, y: 20, text: 'Avoid the lava!', color: '#ff6600', size: 24, bold: true, stroke: true
+    });
+    game.add(title);
+
+    game.start();
+  </script>
+</body>
+</html>
