@@ -1,5 +1,7 @@
 # Marble.js
 
+![Logo](logo.png)
+
 **A 2D physics library specialized for marble race, marble kingdom, and marble run style games and simulations.**
 
 Marble.js focuses on **balls**, **physics**, **collisions**, **obstacles**, **teleports**, **lava**, **goals** and colorful 2D experiences — not a general-purpose game engine.
